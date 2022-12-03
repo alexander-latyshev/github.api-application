@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
+import RepoCard from "../components/repoCard";
 import { useDebounce } from "../hooks/debounce";
-import { useSearchUsersQuery } from "../store/github/github.api";
+import {
+  useLazyGetUserReposQuery,
+  useSearchUsersQuery,
+} from "../store/github/github.api";
 
 type Props = {};
 
@@ -12,13 +16,18 @@ const HomePage = (props: Props) => {
     skip: debounced.length < 3,
     refetchOnFocus: true,
   });
+  const [fetchRepos, { isLoading: areReposLoading, data: repos }] =
+    useLazyGetUserReposQuery();
 
   useEffect(() => {
     setDropdown(debounced.length > 3 && data?.length! > 0);
-  }, [debounced]);
+  }, [debounced, data]);
+
   const clickHandler = (username: string) => {
-    console.log(username);
+    fetchRepos(username);
+    setDropdown(false);
   };
+
   return (
     <section className="flex flex-col items-center pt-10 mx-auto h-screen p-0 m-0">
       {isError && <p className="text-center font-bold">Error...</p>}
@@ -26,7 +35,7 @@ const HomePage = (props: Props) => {
         <input
           type={"text"}
           placeholder="Search for github user..."
-          className="border py-2 px-4 w-full h-[42px] mb-2 text-black"
+          className="border border-github-border py-2 px-4 w-full h-[42px] mb-2 text-white bg-github-search rounded-lg"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -44,6 +53,14 @@ const HomePage = (props: Props) => {
             ))}
           </ul>
         )}
+        <div className="container">
+          {areReposLoading && (
+            <p className="text-center">Repos are Loading...</p>
+          )}
+          {repos?.map((repo) => (
+            <RepoCard repo={repo} key={repo.id} />
+          ))}
+        </div>
       </div>
     </section>
   );

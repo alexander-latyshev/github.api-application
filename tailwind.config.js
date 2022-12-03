@@ -7,6 +7,8 @@ module.exports = {
         "github-grey": "#161b22",
         "github-dg": "#0d1117",
         "github-col": "#161b22",
+        "github-border": "#30363d",
+        "github-search": "#0d1117",
       },
     },
   },

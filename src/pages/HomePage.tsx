@@ -29,9 +29,9 @@ const HomePage = (props: Props) => {
   };
 
   return (
-    <section className="flex flex-col items-center pt-10 mx-auto h-screen p-0 m-0">
+    <section className="items-center pt-10 mx-auto max-h-full min-h-screen">
       {isError && <p className="text-center font-bold">Error...</p>}
-      <div className="relative w-[560px]">
+      <div className="relative w-[560px] flex flex-col mx-auto">
         <input
           type={"text"}
           placeholder="Search for github user..."
@@ -40,7 +40,7 @@ const HomePage = (props: Props) => {
           onChange={(e) => setSearch(e.target.value)}
         />
         {dropdown && (
-          <ul className="list-none overflow-y-scroll absolute top-[42px] left-0 right-0 max-h-[200px] shadow-md shadow-github-grey">
+          <ul className="list-none overflow-y-scroll absolute top-[42px] left-0 right-0 max-h-[200px] shadow-md shadow-github-grey flex flex-col">
             {isLoading && <p>Loading...</p>}
             {data?.map((user) => (
               <li
@@ -67,4 +67,3 @@ const HomePage = (props: Props) => {
 };
 
 export default HomePage;
-// github-grey

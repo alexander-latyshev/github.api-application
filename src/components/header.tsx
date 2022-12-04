@@ -5,7 +5,7 @@ type Props = {};
 
 const Header = (props: Props) => {
   return (
-    <header className="flex justify-between items-center h-[50px] text-white shadow-md bg-github-grey">
+    <header className="flex justify-between items-center h-[50px] text-white shadow-md bg-github-grey w-full">
       <Navigation />
     </header>
   );
